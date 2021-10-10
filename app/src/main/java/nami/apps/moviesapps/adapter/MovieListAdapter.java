@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +47,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         Picasso.with(mContext)
                 .load(movie.getPoster())
                 .placeholder(R.color.colorAccent)
-                .into(holder.imageView);
+                .into(holder.view.movieImage);
+
+        holder.view.movieTitle.setText(movie.getTitle());
+        holder.view.movieReleaseYear.setText(movie.getReleaseDate());
     }
 
     @Override
@@ -56,11 +60,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder
     {
-        public ImageView imageView;
+        public MovieRow view;
         public MovieViewHolder(View itemView)
         {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            view = new MovieRow();
+            view.movieImage = (ImageView) itemView.findViewById(R.id.imageView);
+            view.movieTitle = (TextView) itemView.findViewById(R.id.movieTitle);
+            view.movieReleaseYear = (TextView) itemView.findViewById(R.id.movieReleaseYear);
         }
     }
 
