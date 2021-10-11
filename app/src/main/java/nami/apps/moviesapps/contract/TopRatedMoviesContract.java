@@ -4,7 +4,7 @@ import java.util.List;
 
 import nami.apps.moviesapps.gson.Movie;
 
-public interface MovieMainContract {
+public interface TopRatedMoviesContract {
 
     interface View
     {
@@ -15,13 +15,15 @@ public interface MovieMainContract {
     {
         interface OnListener {
             void onSuccess(List<Movie> movies);
-            void onFailure (String error);
+            void onFailure(String error);
         }
-        void getMovieResult(Model.OnListener listener);
+        void getMovieList(Model.OnListener listener);
+
+
     }
     interface Presenter
     {
-       void getPopularMovies();
+       void getTopRatedMovies();
     }
 
 }

@@ -3,23 +3,23 @@ package nami.apps.moviesapps.presenter;
 import java.util.List;
 
 import nami.apps.moviesapps.gson.Movie;
-import nami.apps.moviesapps.contract.MovieMainContract;
+import nami.apps.moviesapps.contract.PopularMoviesContract;
 
-public class MovieMainPresenter implements MovieMainContract.Presenter,MovieMainContract.Model.OnListener {
+public class PopularMoviePresenter implements PopularMoviesContract.Presenter, PopularMoviesContract.Model.OnListener {
     //creating object of View interface
-    private MovieMainContract.View mainView;
+    private PopularMoviesContract.View mainView;
 
     //creating object of Model interface
-    private MovieMainContract.Model model;
+    private PopularMoviesContract.Model model;
 
-    public MovieMainPresenter(MovieMainContract.View mainView, MovieMainContract.Model model) {
+    public PopularMoviePresenter(PopularMoviesContract.View mainView, PopularMoviesContract.Model model) {
         this.mainView = mainView;
         this.model = model;
     }
 
     @Override
     public void getPopularMovies() {
-        this.model.getMovieResult(this);
+        this.model.getMovieList(this);
     }
 
 

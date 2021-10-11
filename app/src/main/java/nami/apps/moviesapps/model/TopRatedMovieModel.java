@@ -1,26 +1,24 @@
 package nami.apps.moviesapps.model;
 
+import nami.apps.moviesapps.contract.PopularMoviesContract;
+import nami.apps.moviesapps.contract.TopRatedMoviesContract;
 import nami.apps.moviesapps.gson.Movie;
 import nami.apps.moviesapps.service.MoviesApiServices;
-import nami.apps.moviesapps.contract.MovieMainContract;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MovieMainModel implements MovieMainContract.Model {
+public class TopRatedMovieModel implements TopRatedMoviesContract.Model {
 
     OnListener mListener;
-    @Override
-    public void getMovieResult(OnListener listener) {
-        this.mListener = listener;
-        getMoviesList();
-    }
+    private RestAdapter restAdapter;
+    private MoviesApiServices service;
 
-    public void getMoviesList()
-    {
-        RestAdapter restAdapter = new RestAdapter.Builder()
+    public TopRatedMovieModel() {
+
+        restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
@@ -30,8 +28,20 @@ public class MovieMainModel implements MovieMainContract.Model {
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
-        MoviesApiServices service = restAdapter.create(MoviesApiServices.class);
-        service.getPopularMovies(new Callback<Movie.MovieResult>() {
+        service = restAdapter.create(MoviesApiServices.class);
+    }
+
+    @Override
+    public void getMovieList(OnListener listener) {
+        this.mListener = listener;
+         getTopRatedMoviesResult();
+
+    }
+
+
+    public void getTopRatedMoviesResult()
+    {
+        service.getTopRatedMovies(new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
                 mListener.onSuccess(movieResult.getResults());

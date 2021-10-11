@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="2">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1.8"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        >
+        <ImageButton
+            android:id="@+id/previousPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@android:drawable/ic_media_previous"
+            android:layout_marginStart="80dp"
+            android:backgroundTint="@color/cardview_dark_background"
+            ></ImageButton>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pageNumber"
+            android:layout_centerHorizontal="true">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <ImageButton
+            android:id="@+id/nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:background="@android:drawable/ic_media_next"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="80dp"
+            android:backgroundTint="@color/cardview_dark_background"
+            ></ImageButton>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
