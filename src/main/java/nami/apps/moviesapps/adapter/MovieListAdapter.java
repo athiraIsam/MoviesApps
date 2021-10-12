@@ -15,19 +15,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import nami.apps.moviesapps.gson.Movie;
+import nami.apps.moviesapps.gson.GetMovieResponse;
 import nami.apps.moviesapps.R;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
 
     private LayoutInflater mInflater;
     private Context mContext;
-    private List<Movie> mMovieList ;
+    private List<GetMovieResponse> mGetMovieResponseList;
 
     public MovieListAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(this.mContext);
-        this.mMovieList = new ArrayList<>();
+        this.mGetMovieResponseList = new ArrayList<>();
     }
 
     @NonNull
@@ -40,22 +40,22 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Movie movie = mMovieList.get(position);
+        GetMovieResponse getMovieResponse = mGetMovieResponseList.get(position);
 
         // This is how we use Picasso to load images from the internet.
 
         Picasso.with(mContext)
-                .load(movie.getPoster())
+                .load(getMovieResponse.getPoster())
                 .placeholder(R.color.colorAccent)
                 .into(holder.view.movieImage);
 
-        holder.view.movieTitle.setText(movie.getTitle());
-        holder.view.movieReleaseYear.setText(movie.getReleaseDate());
+        holder.view.movieTitle.setText(getMovieResponse.getTitle());
+        holder.view.movieReleaseYear.setText(getMovieResponse.getReleaseDate());
     }
 
     @Override
     public int getItemCount() {
-        return mMovieList ==  null ? 0 : mMovieList.size();
+        return mGetMovieResponseList ==  null ? 0 : mGetMovieResponseList.size();
     }
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder
@@ -71,10 +71,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
-    public void setMovieList(List<Movie> movieList)
+    public void setMovieList(List<GetMovieResponse> getMovieResponseList)
     {
-        this.mMovieList.clear();
-        this.mMovieList.addAll(movieList);
+        this.mGetMovieResponseList.clear();
+        this.mGetMovieResponseList.addAll(getMovieResponseList);
         // The adapter needs to know that the data has changed. If we don't call this, app will crash.
         notifyDataSetChanged();
     }

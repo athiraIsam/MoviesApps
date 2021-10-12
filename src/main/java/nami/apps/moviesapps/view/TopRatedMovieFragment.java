@@ -13,19 +13,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import nami.apps.moviesapps.R;
 import nami.apps.moviesapps.adapter.MovieListAdapter;
 import nami.apps.moviesapps.adapter.PaginationAdapter;
-import nami.apps.moviesapps.contract.PopularMoviesContract;
 import nami.apps.moviesapps.contract.TopRatedMoviesContract;
-import nami.apps.moviesapps.gson.Movie;
+import nami.apps.moviesapps.gson.GetMovieResponse;
 import nami.apps.moviesapps.model.TopRatedMovieModel;
-import nami.apps.moviesapps.presenter.PopularMoviePresenter;
 import nami.apps.moviesapps.presenter.TopRatedMoviePresenter;
 
-public class TopRatedMovieFragment extends Fragment implements TopRatedMoviesContract.View {
+public class TopRatedMovieFragment extends Fragment implements TopRatedMoviesContract.View,PaginationAdapter.PageinationOnListerner{
 
     RecyclerView mMovieRv,mPaginationRv;
     TopRatedMoviePresenter presenter;
@@ -49,23 +49,50 @@ public class TopRatedMovieFragment extends Fragment implements TopRatedMoviesCon
         mMovieAdapter = new MovieListAdapter(getContext());
         mMovieRv.setAdapter(mMovieAdapter);
 
-        mPaginationRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        mPaginationRv.setLayoutManager(layoutManager);
         mPaginationAdapter = new PaginationAdapter(getContext());
         mPaginationRv.setAdapter(mPaginationAdapter);
+        mPaginationAdapter.setOnPaginationListener(this);
 
         presenter = new TopRatedMoviePresenter(this,new TopRatedMovieModel());
         presenter.getTopRatedMovies();
 
-
     }
 
     @Override
-    public void onSuccess(List<Movie> movies) {
-        mMovieAdapter.setMovieList(movies);
+    public void onSuccess(List<GetMovieResponse> getMovieResponses) {
+        mMovieAdapter.setMovieList(getMovieResponses);
+
     }
 
     @Override
     public void onFailure(String error) {
         Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void totalPageNumber(String pageNumber) {
+        setTotalPageNumber(pageNumber);
+    }
+
+
+    private void setTotalPageNumber (String totalPage)
+    {
+        List<String> allPageNumber = new ArrayList<>();
+
+        if(totalPage!=null) {
+            for (int i = 1; i <= Integer.parseInt(totalPage); i++) {
+                allPageNumber.add(String.valueOf(i));
+            }
+            mPaginationAdapter.setListPageNumber(allPageNumber);
+        }
+    }
+
+    @Override
+    public void onClick(int position) {
+        presenter.updateTopRatedMovies(String.valueOf(position+1));
     }
 }

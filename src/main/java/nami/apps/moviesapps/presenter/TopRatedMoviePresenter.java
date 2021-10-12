@@ -2,9 +2,8 @@ package nami.apps.moviesapps.presenter;
 
 import java.util.List;
 
-import nami.apps.moviesapps.contract.PopularMoviesContract;
 import nami.apps.moviesapps.contract.TopRatedMoviesContract;
-import nami.apps.moviesapps.gson.Movie;
+import nami.apps.moviesapps.gson.GetMovieResponse;
 
 public class TopRatedMoviePresenter implements TopRatedMoviesContract.Presenter, TopRatedMoviesContract.Model.OnListener {
     //creating object of View interface
@@ -25,12 +24,24 @@ public class TopRatedMoviePresenter implements TopRatedMoviesContract.Presenter,
 
 
     @Override
-    public void onSuccess(List<Movie> movies) {
-        mainView.onSuccess(movies);
+    public void onSuccess(List<GetMovieResponse> getMovieResponses) {
+        mainView.onSuccess(getMovieResponses);
+
     }
 
     @Override
     public void onFailure(String error) {
         mainView.onFailure(error);
+    }
+
+    @Override
+    public void totalPageNumber(String pageNumber) {
+        this.mainView.totalPageNumber(pageNumber);
+    }
+
+    @Override
+    public void updateTopRatedMovies(String pageNumber) {
+       this.model.setPageNumber(pageNumber);
+       this.model.getMovieList(this);
     }
 }
