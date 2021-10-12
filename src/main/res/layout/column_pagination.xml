@@ -8,6 +8,7 @@
         android:id="@+id/pageNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10" />
+        android:text="10"
+        android:backgroundTint="@color/colorPageNumber" />
 
 </RelativeLayout>

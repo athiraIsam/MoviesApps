@@ -17,14 +17,20 @@ public class GetMovieResponse {
     @SerializedName("poster_path")
     private String poster;
 
-    @SerializedName("overview")
-    private String description;
-
     @SerializedName("backdrop_path")
     private String backdrop;
 
     @SerializedName("release_date")
     private String releaseDate;
+
+    @SerializedName("popularity")
+    private String popularity;
+
+    @SerializedName("vote_count")
+    private String voteCount;
+
+    @SerializedName("overview")
+    private String overview;
 
     public String getTitle() {
         return title;
@@ -42,13 +48,6 @@ public class GetMovieResponse {
         this.poster = poster;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getBackdrop() {
         return TMDB_IMAGE_PATH  + backdrop;
@@ -66,6 +65,30 @@ public class GetMovieResponse {
         this.releaseDate = releaseDate;
     }
 
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(String voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
     public static  class GetPageNumber
     {
         @SerializedName("total_pages")
@@ -78,6 +101,8 @@ public class GetMovieResponse {
         public void setTotalPages(String totalPages) {
             this.totalPages = totalPages;
         }
+
+
     }
     public static class MovieResult {
         private List<GetMovieResponse> results;

@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +42,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Pa
             holder.pageNumbering.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   onItemClickListener.onClick(position);
+                   onItemClickListener.onPageClick(position);
                 }
             });
     }
@@ -76,6 +74,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Pa
     }
    public interface PageinationOnListerner
     {
-        void onClick(int position);
+        void onPageClick(int position);
     }
 }

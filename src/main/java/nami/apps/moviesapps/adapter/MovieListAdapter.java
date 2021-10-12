@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     private LayoutInflater mInflater;
     private Context mContext;
     private List<GetMovieResponse> mGetMovieResponseList;
+    private MovieListOnListener onItemClickListener;
 
     public MovieListAdapter(Context context) {
         this.mContext = context;
@@ -39,7 +41,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, final int position) {
         GetMovieResponse getMovieResponse = mGetMovieResponseList.get(position);
 
         // This is how we use Picasso to load images from the internet.
@@ -51,6 +53,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         holder.view.movieTitle.setText(getMovieResponse.getTitle());
         holder.view.movieReleaseYear.setText(getMovieResponse.getReleaseDate());
+
+        holder.view.movieRv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onMovieListClick(position);
+            }
+        });
     }
 
     @Override
@@ -68,6 +77,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             view.movieImage = (ImageView) itemView.findViewById(R.id.imageView);
             view.movieTitle = (TextView) itemView.findViewById(R.id.movieTitle);
             view.movieReleaseYear = (TextView) itemView.findViewById(R.id.movieReleaseYear);
+            view.movieRv = (RelativeLayout) itemView.findViewById(R.id.movieRv);
         }
     }
 
@@ -77,6 +87,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.mGetMovieResponseList.addAll(getMovieResponseList);
         // The adapter needs to know that the data has changed. If we don't call this, app will crash.
         notifyDataSetChanged();
+    }
+
+    public interface MovieListOnListener
+    {
+        void onMovieListClick(int position);
+    }
+
+    public void setOnMovieListListener( MovieListAdapter.MovieListOnListener onListerner) {
+        if(onListerner!=null)
+             this.onItemClickListener = onListerner;
     }
 }
 

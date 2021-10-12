@@ -1,5 +1,6 @@
 package nami.apps.moviesapps.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +25,14 @@ import nami.apps.moviesapps.gson.GetMovieResponse;
 import nami.apps.moviesapps.model.PopularMovieModel;
 import nami.apps.moviesapps.presenter.PopularMoviePresenter;
 
-public class PopularMovieFragment extends Fragment implements PopularMoviesContract.View, PaginationAdapter.PageinationOnListerner {
+public class PopularMovieFragment extends Fragment implements PopularMoviesContract.View, PaginationAdapter.PageinationOnListerner
+, MovieListAdapter.MovieListOnListener {
 
     RecyclerView mRecyclerView,mPaginationRv;
     PopularMoviePresenter presenter;
     private MovieListAdapter mAdapter;
     private PaginationAdapter mPaginationAdapter;
+    private List<GetMovieResponse> movieResponses;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         mAdapter = new MovieListAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnMovieListListener(this);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -64,6 +68,7 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
 
     @Override
     public void onSuccess(List<GetMovieResponse> getMovieResponses) {
+        this.movieResponses = getMovieResponses;
         mAdapter.setMovieList(getMovieResponses);
     }
 
@@ -73,7 +78,7 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
     }
 
     @Override
-    public void onClick(int position) {
+    public void onPageClick(int position) {
         presenter.updatePopularMovies(String.valueOf(position+1));
     }
 
@@ -92,5 +97,17 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
             }
             mPaginationAdapter.setListPageNumber(allPageNumber);
         }
+    }
+
+    @Override
+    public void onMovieListClick(int position) {
+        Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+        intent.putExtra("moviePoster",this.movieResponses.get(position).getPoster());
+        intent.putExtra("movieTitle",this.movieResponses.get(position).getTitle());
+        intent.putExtra("movieReleaseDate",this.movieResponses.get(position).getReleaseDate());
+        intent.putExtra("moviePopularity",this.movieResponses.get(position).getPopularity());
+        intent.putExtra("movieVote",this.movieResponses.get(position).getVoteCount());
+        intent.putExtra("movieOverview",this.movieResponses.get(position).getOverview());
+        startActivity(intent);
     }
 }
