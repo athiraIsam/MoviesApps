@@ -2,6 +2,8 @@ package nami.apps.moviesapps.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +35,14 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
     private MovieListAdapter mAdapter;
     private PaginationAdapter mPaginationAdapter;
     private List<GetMovieResponse> movieResponses;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_movies,container,false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mPaginationRv = view.findViewById(R.id.pageNumber);
+
         return view;
     }
 
@@ -110,4 +114,6 @@ public class PopularMovieFragment extends Fragment implements PopularMoviesContr
         intent.putExtra("movieOverview",this.movieResponses.get(position).getOverview());
         startActivity(intent);
     }
+
+
 }
